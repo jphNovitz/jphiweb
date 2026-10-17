@@ -118,6 +118,9 @@
             "tests/bootstrap.php"
         ]
     },
+    "presta/sitemap-bundle": {
+        "version": "v4.3.1"
+    },
     "stof/doctrine-extensions-bundle": {
         "version": "v1.7.1"
     },
@@ -300,6 +303,18 @@
             "bin/phpunit",
             "phpunit.xml.dist",
             "tests/bootstrap.php"
+        ]
+    },
+    "symfony/property-info": {
+        "version": "7.4",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "7.3",
+            "ref": "dae70df71978ae9226ae915ffd5fad817f5ca1f7"
+        },
+        "files": [
+            "config/packages/property_info.yaml"
         ]
     },
     "symfony/routing": {
