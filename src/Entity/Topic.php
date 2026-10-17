@@ -8,11 +8,13 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 #[ORM\Entity(repositoryClass: TopicRepository::class)]
 class Topic
 {
+    use TimestampableEntity;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -71,7 +73,6 @@ class Topic
     #[ORM\JoinColumn(name: 'topic_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(name: 'blog_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     private Collection $relatedBlogs;
-
 
     #[ORM\PrePersist]
     #[ORM\PreUpdate]

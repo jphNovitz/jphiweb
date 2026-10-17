@@ -7,6 +7,7 @@ use DateTime;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Gedmo\Translatable\Translatable;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Enum\WorkType;
@@ -14,6 +15,8 @@ use App\Enum\WorkType;
 #[ORM\Entity(repositoryClass: WorkRepository::class)]
 class Work
 {
+    use TimestampableEntity;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -49,7 +52,6 @@ class Work
     #[ORM\Column(nullable: true)]
     private ?int $price = null;
 
-
     #[ORM\Column(length: 255, nullable: true)]
     #[Assert\Length(
         max: 255,
@@ -74,26 +76,11 @@ class Work
     #[ORM\Column(type: 'string', enumType: WorkType::class, nullable: true)]
     private ?WorkType $type = null;
 
-    /**
-     * @var DateTime
-     */
-    #[Gedmo\Timestampable(on: 'create')]
-    #[ORM\Column(name: 'created', type: Types::DATE_MUTABLE)]
-    private $created;
-
-    /**
-     * @var DateTime
-     */
-    #[ORM\Column(name: 'updated', type: Types::DATETIME_MUTABLE)]
-    #[Gedmo\Timestampable]
-    private $updated;
-
     #[ORM\Column]
     private ?bool $front = false;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $demoUrl = null;
-
 
     public function getId(): ?int
     {
@@ -133,30 +120,6 @@ class Work
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
-
-        return $this;
-    }
-
-    public function getCreated(): ?\DateTimeInterface
-    {
-        return $this->created;
-    }
-
-    public function setCreated(\DateTimeInterface $created): self
-    {
-        $this->created = $created;
-
-        return $this;
-    }
-
-    public function getUpdated(): ?\DateTimeInterface
-    {
-        return $this->updated;
-    }
-
-    public function setUpdated(\DateTimeInterface $updated): self
-    {
-        $this->updated = $updated;
 
         return $this;
     }
