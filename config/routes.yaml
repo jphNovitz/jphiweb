@@ -159,6 +159,36 @@ redirect_mentions_legales_bw_vers_web_conseils:
     path: /web-conseils/mentions-legales-obligatoires-site-internet-belgique
     permanent: true
 
+# config/routes/redirects.yaml
+
+redirect_carte_de_visite:
+  path: /services/creation/creation-site-web-carte-de-visite
+  controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController
+  defaults:
+    path: /services/creation/carte-de-visite-numerique
+    permanent: true
+
+redirect_landing_page:
+  path: /services/creation/landing-page-soyez-visible-avec-page-accueil-professionnelle
+  controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController
+  defaults:
+    path: /services/creation/carte-de-visite-numerique
+    permanent: true
+
+redirect_referencement_local_:
+  path: /services/evolution/referencement-local-mise-en-place-pour-independants
+  controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController
+  defaults:
+    path: /services/creation/carte-de-visite-numerique
+    permanent: true
+#
+#redirect_referencement_local_ancien:
+#  path: /services/evolution/referencement-local-court-saint-etienne
+#  controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController
+#  defaults:
+#    path: /services/creation/carte-de-visite-numerique
+#    permanent: true
+
 controllers:
   resource: ../src/Controller/
   type: attribute
