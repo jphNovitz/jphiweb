@@ -46,19 +46,13 @@
 
 
 {% block breadcrumb %}
-    <div class="breadcrumbs flex justify-start md:justify-center pt-12 text-xs">
-        <ul class="max-w-full flex flex-col md:flex-row !items-start md:!items-center space-x-2 ">
+    <nav class="breadcrumbs pt-12 text-xs" aria-label="Fil d'Ariane">
+        <ol class="flex-wrap justify-start md:justify-center whitespace-normal">
             <li><a href="{{ path('app_home') }}">Accueil</a></li>
-            <li class="!mt-0"><a href="{{ path('app_project_list') }}">Réalisations</a></li>
-           {# {% if project.category %}
-                <li class="!mt-0 text-ellipsis overflow-hidden">
-#}{#                    <a href="{{ path('app_project_show', {'slug': project.category.slug}) }}">{{ project.category.title }}</a>#}{#
-                    {{ project.category.name }}
-                </li>
-            {% endif %}#}
-            <li class="!mt-0 text-ellipsis overflow-hidden">{{ project.title }}</li>
-        </ul>
-    </div>
+            <li><a href="{{ path('app_project_list') }}">Réalisations</a></li>
+            <li aria-current="page">{{ project.title }}</li>
+        </ol>
+    </nav>
 
 
 {% endblock %}

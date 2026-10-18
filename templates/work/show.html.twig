@@ -67,14 +67,13 @@
 {% endblock %}
 
 {% block breadcrumb %}
-  <div class="breadcrumbs flex justify-start md:justify-center pt-8 text-xs">
-    <ul class="max-w-full flex flex-col md:flex-row !items-start md:!items-center space-x-2 ">
-      <li><a href="{{ path('app_home') }}">Accueil</a></li>
-      <li class="!mt-0"><a href="{{ path('app_work_index') }}">Services</a></li>
-      <li class="!mt-0"><a href="{{ path('app_work_type', {'type': work.type.value}) }}">{{ work.type.value }}</a></li>
-      <li class="!mt-0 text-ellipsis overflow-hidden">{{ work.name }}</li>
-    </ul>
-  </div>
+  <nav class="breadcrumbs pt-8 text-xs" aria-label="Fil d'Ariane">
+      <ol class="flex-wrap justify-start md:justify-center whitespace-normal">
+          <li><a href="{{ path('app_home') }}">Accueil</a></li>
+          <li><a href="{{ path('app_work_index') }}">Services</a></li>
+          <li aria-current="page">{{ work.name }}</li>
+      </ol>
+  </nav>
 {% endblock %}
 {% block body %}
 {#    <div class="w-full h-full flex flex-col justify-around  md:w-2/3 m-auto">#}
@@ -120,7 +119,7 @@
           </p>
           
           {% if work.price %}
-            <p class="text-xl">À partir de {{work.price}} € htva <span class="opacity-50">*</span></p> 
+            <p class="text-xl">{{work.price}} € HTVA</p>
           {% endif %}
           <!-- CTA démo -->
 
@@ -168,7 +167,6 @@
 
           </div>
 
-          {% if work.price %} <small>* Tarif indicatif hors frais d'hébergement et nom de domaine </small> {% endif %} 
 
         </div>
 

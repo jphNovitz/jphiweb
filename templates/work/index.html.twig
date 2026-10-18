@@ -17,12 +17,12 @@
 
 
 {% block breadcrumb %}
-    <div class="breadcrumbs flex justify-start md:justify-center pt-8 text-xs">
-        <ul class="max-w-full flex flex-col md:flex-row !items-start md:!items-center space-x-2 ">
+    <nav class="breadcrumbs pt-8 text-xs" aria-label="Fil d'Ariane">
+        <ol class="flex-wrap justify-start md:justify-center whitespace-normal">
             <li><a href="{{ path('app_home') }}">Accueil</a></li>
-            <li class="!mt-0 text-ellipsis overflow-hidden">Services</li>
-        </ul>
-    </div>
+            <li aria-current="page">Services</li>
+        </ol>
+    </nav>
 {% endblock %}
 
 {% block body %}

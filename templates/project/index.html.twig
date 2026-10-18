@@ -18,12 +18,12 @@
 {% block breadcrumb %}
     <div class="w-full flex justify-center items-center">
 
-        <div class="breadcrumbs flex justify-center pt-4 text-sm">
-            <ul>
-                <li><a href="{{ path('app_home') }}" >Accueil</a></li>
-                <li class="!mt-0">Réalisations</li>
-            </ul>
-        </div>
+        <nav class="breadcrumbs pt-4 text-xs" aria-label="Fil d'Ariane">
+            <ol class="flex-wrap justify-start md:justify-center whitespace-normal">
+                <li><a href="{{ path('app_home') }}">Accueil</a></li>
+                <li aria-current="page">Réalisations</li>
+            </ol>
+        </nav>
     </div>
 {% endblock %}
 

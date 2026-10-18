@@ -55,17 +55,15 @@
 
 
 {% block breadcrumb %}
-    <div class="breadcrumbs flex justify-start md:justify-center pt-8 text-xs">
-        <ul class="max-w-full flex flex-col md:flex-row !items-start md:!items-center space-x-2 ">
-            <li class="mb-0"><a href="{{ path('app_home') }}">Accueil</a></li>
+    <nav class="breadcrumbs pt-8 text-xs" aria-label="Fil d'Ariane">
+        <ol class="flex-wrap justify-start md:justify-center whitespace-normal">
+            <li><a href="{{ path('app_home') }}">Accueil</a></li>
             {% if post.topic %}
-                <li class="!mt-0 text-ellipsis overflow-hidden"><a
-                            href="{{ path('app_topic_show', {'slug': post.topic.slug}) }}">{{ post.topic.title }}</a>
-                </li>
+                <li><a href="{{ path('app_topic_show', {'slug': post.topic.slug}) }}">{{ post.topic.title }}</a></li>
             {% endif %}
-            <li class="!mt-0 text-ellipsis overflow-hidden">{{ post.title }}</li>
-        </ul>
-    </div>
+            <li aria-current="page">{{ post.title }}</li>
+        </ol>
+    </nav>
 {% endblock %}
 
 {% block body %}
