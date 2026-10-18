@@ -71,16 +71,16 @@
             <!-- Catégories et Technologies -->
             <div class="flex flex-wrap gap-2 mb-4">
                 {% if project.category %}
-                    <span class="bg-indigo-800 text-indigo-50 font-semibold text-sm px-3 py-1 rounded">{{ project.category.name }}</span>
+                    <span class="badge badge-primary font-semibold">{{ project.category.name }}</span>
                 {% endif %}
                 {% for technology in project.technologies %}
-                    <span class="bg-indigo-50 text-indigo-800 border border-indigo-800  text-sm px-3 py-1 rounded">{{ technology.name }}</span>
+                    <span class="badge badge-primary badge-outline">{{ technology.name }}</span>
                 {% endfor %}
             </div>
 
             <!-- Header -->
             {% if project.header %}
-                <p class="text-xl font-italic font-semibold mt-6">{{ project.header }}</p>
+                <p class="text-xl italic font-semibold mt-6">{{ project.header }}</p>
             {% endif %}
         </div>
 
@@ -95,29 +95,29 @@
             <!-- Tags -->
             <div class="tags flex flex-wrap gap-2 mb-4">
                 {% for tag in project.tags %}
-                    <span class="bg-amber-500 text-gray-900 font-semibold text-sm px-3 py-1 rounded">{{ tag.name }}</span>
+                    <span class="badge badge-accent font-semibold">{{ tag.name }}</span>
                 {% endfor %}
             </div>
 
             <!-- Rôle -->
             {% if project.role %}
                 <div class="role mb-4">
-                    <strong>Role:</strong> {{ project.role.name }}
+                    <strong>Rôle :</strong> {{ project.role.name }}
                 </div>
             {% endif %}
 
             <!-- Lien -->
             {% if project.link %}
-                <div class="link">
+                <div class="project-link">
                     <a href="{{ project.link }}" target="_blank"
-                       class="text-blue-700 underline">Visitez {{ project.title }}</a>
+                       class="link link-primary">Visitez {{ project.title }}</a>
                 </div>
             {% endif %}
         </div>
     </div>
-    <div class="w-full my-16 text-sm lg-text-base bg-indigo-50 text-indigo-800 border-t border-b border-indigo-900 p-4 rounded">
-        Moi, c’est Jeanphi, développeur et webmaster basé à Court-Saint-Etienne dans le  Brabant wallon, mais disponible pour toute
-        la Wallonie. Besoin d’un site qui reflète votre activité ? Parlons-en et donnons vie à vos projets en ligne
-        !
+    <div class="w-full my-16 text-sm lg:text-base bg-base-200 text-base-content border-y border-primary p-4 rounded">
+        Un projet similaire en tête ? Je suis Jeanphi, développeur web indépendant à Court-Saint-Étienne.
+        J’accompagne les indépendants et PME du Brabant wallon et de toute la Wallonie.
+        <a href="{{ path('app_contact') }}" class="link link-primary font-semibold">Parlons de votre projet.</a>
     </div>
 {% endblock %}
