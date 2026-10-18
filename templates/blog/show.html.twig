@@ -55,15 +55,10 @@
 
 
 {% block breadcrumb %}
-    <nav class="breadcrumbs pt-8 text-xs" aria-label="Fil d'Ariane">
-        <ol class="flex-wrap justify-start md:justify-center whitespace-normal">
-            <li><a href="{{ path('app_home') }}">Accueil</a></li>
-            {% if post.topic %}
-                <li><a href="{{ path('app_topic_show', {'slug': post.topic.slug}) }}">{{ post.topic.title }}</a></li>
-            {% endif %}
-            <li aria-current="page">{{ post.title }}</li>
-        </ol>
-    </nav>
+    {{ component('Breadcrumb', {
+        items: [{label: 'Accueil', url: path('app_home')}]|merge(post.topic ? [{label: post.topic.title, url: path('app_topic_show', {slug: post.topic.slug})}] : []),
+        current: post.title
+    }) }}
 {% endblock %}
 
 {% block body %}

@@ -67,13 +67,10 @@
 {% endblock %}
 
 {% block breadcrumb %}
-  <nav class="breadcrumbs pt-8 text-xs" aria-label="Fil d'Ariane">
-      <ol class="flex-wrap justify-start md:justify-center whitespace-normal">
-          <li><a href="{{ path('app_home') }}">Accueil</a></li>
-          <li><a href="{{ path('app_work_index') }}">Services</a></li>
-          <li aria-current="page">{{ work.name }}</li>
-      </ol>
-  </nav>
+    {{ component('Breadcrumb', {
+        items: [{label: 'Accueil', url: path('app_home')}, {label: 'Services', url: path('app_work_index')}],
+        current: work.name
+    }) }}
 {% endblock %}
 {% block body %}
 {#    <div class="w-full h-full flex flex-col justify-around  md:w-2/3 m-auto">#}

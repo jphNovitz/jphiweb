@@ -16,15 +16,10 @@
 {% block twitter_description %}Club sportif, sandwicherie, applications métier : les projets et démonstrations réalisés depuis Court-Saint-Étienne.{% endblock %}
 
 {% block breadcrumb %}
-    <div class="w-full flex justify-center items-center">
-
-        <nav class="breadcrumbs pt-4 text-xs" aria-label="Fil d'Ariane">
-            <ol class="flex-wrap justify-start md:justify-center whitespace-normal">
-                <li><a href="{{ path('app_home') }}">Accueil</a></li>
-                <li aria-current="page">Réalisations</li>
-            </ol>
-        </nav>
-    </div>
+    {{ component('Breadcrumb', {
+        items: [{label: 'Accueil', url: path('app_home')}],
+        current: 'Réalisations'
+    }) }}
 {% endblock %}
 
 {% block body %}

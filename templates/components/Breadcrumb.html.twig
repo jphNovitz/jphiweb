@@ -1,0 +1,13 @@
+{% props items = [], current %}
+<nav {{ attributes.defaults({ class: 'breadcrumbs px-4 md:px-8 pt-8 text-xs', 'aria-label': "Fil d'Ariane" }) }}>
+    <ol class="md:justify-center">
+        {% for item in items %}
+            <li class="shrink-0 before:shrink-0{{ not loop.first ? ' max-w-[40%]' }}">
+                <a href="{{ item.url }}" class="min-w-0"><span class="truncate">{{ item.label }}</span></a>
+            </li>
+        {% endfor %}
+        <li class="min-w-0 before:shrink-0" aria-current="page">
+            <span class="block truncate">{{ current }}</span>
+        </li>
+    </ol>
+</nav>
