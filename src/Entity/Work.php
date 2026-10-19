@@ -10,6 +10,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Gedmo\Translatable\Translatable;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Enum\PriceMention;
 use App\Enum\WorkType;
 
 #[ORM\Entity(repositoryClass: WorkRepository::class)]
@@ -81,6 +82,12 @@ class Work
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $demoUrl = null;
+
+    #[ORM\Column(type: Types::BOOLEAN, options: ['default' => false])]
+    private bool $showStartingFrom = false;
+
+    #[ORM\Column(type: Types::BOOLEAN, options: ['default' => false])]
+    private bool $showHostingNote = false;
 
     public function getId(): ?int
     {
@@ -244,4 +251,38 @@ class Work
         return $this;
     }
 
+    public function isShowStartingFrom(): bool
+    {
+        return $this->showStartingFrom;
+    }
+
+    public function setShowStartingFrom(bool $showStartingFrom): static
+    {
+        $this->showStartingFrom = $showStartingFrom;
+
+        return $this;
+    }
+
+    public function isShowHostingNote(): bool
+    {
+        return $this->showHostingNote;
+    }
+
+    public function setShowHostingNote(bool $showHostingNote): static
+    {
+        $this->showHostingNote = $showHostingNote;
+
+        return $this;
+    }
+
+    /**
+     * @return PriceMention[]
+     */
+    public function getPriceMentions(): array
+    {
+        return array_values(array_filter([
+            $this->showStartingFrom ? PriceMention::StartingFrom : null,
+            $this->showHostingNote ? PriceMention::HostingNote : null,
+        ]));
+    }
 }
