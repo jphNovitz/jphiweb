@@ -32,9 +32,12 @@
         {% endif %}
 
         {% if work.price %}
-            <p class="text-xl font-medium mt-auto">
-                À partir de {{ work.price }} €
-            </p>
+            <div class="mt-auto text-center">
+                {% if work.showStartingFrom %}
+                    <p class="text-sm text-base-content/60 leading-tight mb-0">{{ enum('App\\Enum\\PriceMention').StartingFrom.label }}</p>
+                {% endif %}
+                <p class="text-xl font-medium leading-tight">{{ work.price }} € HTVA</p>
+            </div>
         {% endif %}
     </div>
     <div class="card-actions justify-center p-8">
