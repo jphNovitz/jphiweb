@@ -26,7 +26,7 @@
             {% if work.image %}
             "image": "{{ absolute_url(asset('images/work/' ~ work.image)) }}",
             {% endif %}
-            "serviceType": "{{ work.type is defined and work.type ? work.type.value|e('js') : 'Création de site web' }}",
+            "serviceType": {{ (work.type ? work.type.serviceType() : 'Création de site web')|json_encode(constant('JSON_UNESCAPED_UNICODE'))|raw }},
             "provider": {
                 "@type": "ProfessionalService",
                 "@id": "https://jphiweb.be/#organization",

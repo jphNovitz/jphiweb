@@ -16,4 +16,13 @@ enum WorkType: string
             self::Project    => 'Projet sur mesure',
         };
     }
+
+    public function serviceType(): string
+    {
+        return match($this) {
+            self::Create  => 'Création de site web',
+            self::Evolution => 'Refonte et évolution de site web',
+            self::Project    => 'Développement web sur mesure',
+        };
+    }
 }
