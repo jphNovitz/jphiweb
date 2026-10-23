@@ -6,12 +6,12 @@
           content="{{ project.seoSummary|trim }}"/>
 {% endblock %}
 {% block og_title %}{{ project.seoTitle }}{% endblock %}
-{% block og_image %}{{ asset("/images/projets/"~project.image) }}{% endblock %}
+{% block og_image %}{% if project.image %}{{ absolute_url(asset('images/projets/' ~ project.image)) }}{% else %}{{ parent() }}{% endif %}{% endblock %}
 {% block og_image_alt %}{{ project.seoTitle }}{% endblock %}
 {% block og_description %}{{ project.seoSummary }}{% endblock %}
 {% block twitter_title %}{{ project.seoTitle }}{% endblock %}
 {% block twitter_description %}{{ project.seoSummary }}{% endblock %}
-{% block twitter_image %}{{ asset("/images/projets/"~project.image) }}{% endblock %}
+{% block twitter_image %}{% if project.image %}{{ absolute_url(asset('images/projets/' ~ project.image)) }}{% else %}{{ parent() }}{% endif %}{% endblock %}
 {% block twitter_image_alt %}{{ project.seoTitle }}{% endblock %}
 
 
@@ -56,7 +56,7 @@
     <div class="p-4 md:p-8 lg:p-16 flex flex-col gap-6 md:gap-12 lg:gap-24">
         <!-- Image placeholder -->
         <div class="image-placeholder h-auto flex items-center justify-center mb-6">
-            <img src="/images/projets/{{ project.image }}"
+            <img src="{{ asset('images/projets/' ~ project.image) }}"
                  alt="Image d'illustration du projet {{ project.title }} par pixelservices.be"/>
         </div>
         <div>

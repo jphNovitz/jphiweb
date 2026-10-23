@@ -6,12 +6,12 @@
           content="{{ topic.seoSummary|trim }}"/>
 {% endblock %}
 {% block og_title %}{{ topic.seoTitle }}{% endblock %}
-{% block og_image %}{% if topic.image %}{{ asset("images/topic/" ~ topic.image) }}{% else %}{{ asset("images/jphiweb_facebook_image.webp") }}{% endif %}{% endblock %}
+{% block og_image %}{% if topic.image %}{{ absolute_url(asset('images/topic/' ~ topic.image)) }}{% else %}{{ absolute_url(asset('images/jphiweb_facebook_image.webp')) }}{% endif %}{% endblock %}
 {% block og_image_alt %}{{ topic.imageAlt ?: topic.seoTitle }}{% endblock %}
 {% block og_description %}{{ topic.seoSummary }}{% endblock %}
 {% block twitter_title %}{{ topic.seoTitle }}{% endblock %}
 {% block twitter_description %}{{ topic.seoSummary }}{% endblock %}
-{% block twitter_image %}{% if topic.image %}{{ asset("images/topic/" ~ topic.image) }}{% else %}{{ asset("images/jphiweb_facebook_image.webp") }}{% endif %}{% endblock %}
+{% block twitter_image %}{% if topic.image %}{{ absolute_url(asset('images/topic/' ~ topic.image)) }}{% else %}{{ absolute_url(asset('images/jphiweb_facebook_image.webp')) }}{% endif %}{% endblock %}
 {% block twitter_image_alt %}{{ topic.imageAlt ?: topic.seoTitle }}{% endblock %}
 
 {% block json_ld %}
