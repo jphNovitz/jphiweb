@@ -3,15 +3,15 @@
 {% block title %}{{ work.seoTitle }}{% endblock %}
 {% block metas %}
     <meta name="description"
-          content=" {{ work.seoDescription }}"/>
+          content="{{ work.seoDescription|trim }}"/>
 {% endblock %}
 {% block og_title %}{{ work.seoTitle }}{% endblock %}
-{% block og_image %}{{ asset("images/blog/"~work.image) }} {% endblock %}
+{% block og_image %}{% if work.image %}{{ absolute_url(asset('images/work/' ~ work.image)) }}{% else %}{{ parent() }}{% endif %}{% endblock %}
 {% block og_image_alt %}{{ work.seoTitle }}{% endblock %}
 {% block og_description %}{{ work.seoDescription }}{% endblock %}
 {% block twitter_title %}{{ work.seoTitle }}{% endblock %}
 {% block twitter_description %}{{ work.seoDescription }}{% endblock %}
-{% block twitter_image %}{{ asset("images/blog/"~work.image) }} {% endblock %}
+{% block twitter_image %}{% if work.image %}{{ absolute_url(asset('images/work/' ~ work.image)) }}{% else %}{{ parent() }}{% endif %}{% endblock %}
 {% block twitter_image_alt %}{{ work.seoTitle }}{% endblock %}
 
 {% block json_ld %}
@@ -23,8 +23,8 @@
             "name": "{{ work.name|e('js') }}",
             "description": "{{ work.description|default('Création de site web professionnel.')|striptags|trim|e('js') }}",
             "url": "{{ absolute_url(path('app_work_show', { slug: work.slug , type: work.type.value})) }}",
-            {% if work.imageName is defined and work.imageName %}
-            "image": "{{ absolute_url(asset('uploads/works/' ~ work.imageName)) }}",
+            {% if work.image %}
+            "image": "{{ absolute_url(asset('images/work/' ~ work.image)) }}",
             {% endif %}
             "serviceType": "{{ work.type is defined and work.type ? work.type.value|e('js') : 'Création de site web' }}",
             "provider": {
@@ -32,7 +32,9 @@
                 "@id": "https://jphiweb.be/#organization",
                 "name": "Novitz Jean-Philippe",
                 "url": "https://jphiweb.be",
-                "telephone": "+32XXXXXXXXy",
+                {% if contact_phone %}
+                "telephone": {{ contact_phone|json_encode|raw }},
+                {% endif %}
                 "email": "bonjour@jphiweb.be",
                 "address": {
                     "@type": "PostalAddress",
@@ -130,8 +132,6 @@
             <a
 
               href="/contact"
-
-              target="_blank"
 
               class="btn btn-primary gap-2"
 

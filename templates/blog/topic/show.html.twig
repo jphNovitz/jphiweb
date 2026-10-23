@@ -3,7 +3,7 @@
 {% block title %}{{ topic.seoTitle }}{% endblock %}
 {% block metas %}
     <meta name="description"
-          content="{{ topic.seoSummary }}"/>
+          content="{{ topic.seoSummary|trim }}"/>
 {% endblock %}
 {% block og_title %}{{ topic.seoTitle }}{% endblock %}
 {% block og_image %}{% if topic.image %}{{ asset("images/topic/" ~ topic.image) }}{% else %}{{ asset("images/jphiweb_facebook_image.webp") }}{% endif %}{% endblock %}

@@ -3,7 +3,7 @@
 {% block title %}{{ post.seoTitle }}{% endblock %}
 {% block metas %}
     <meta name="description"
-          content="{{ post.seoSummary }}"/>
+          content="{{ post.seoSummary|trim }}"/>
 
 {% endblock %}
 {% block og_title %}{{ post.seoTitle }}{% endblock %}

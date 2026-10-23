@@ -6,7 +6,7 @@
     <link rel="alternate" hreflang="fr-BE" href="https://jphiweb.be{{ app.request.pathInfo }}"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>{% block title %}Création de site web Brabant Wallon  | Jphiweb{% endblock %}</title>
+    <title>{% apply trim %}{% block title %}Création de site web Brabant Wallon | Jphiweb{% endblock %}{% endapply %}</title>
     <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}"/>
     <link rel="icon" type="image/png" href="{{ asset('favicon-96x96.png') }}" sizes="96x96"/>
     <link
@@ -42,31 +42,31 @@
         : path(app.request.pathinfo)) }}"/>
 
     <meta property="og:title"
-          content="{% block og_title %}Site web pour indépendants et PME en Brabant wallon | Jphiweb{% endblock %}"/>
+          content="{% apply trim %}{% block og_title %}Site web pour indépendants et PME en Brabant wallon | Jphiweb{% endblock %}{% endapply %}"/>
 
-    <meta property="og:type" content="{% block og_type %}website{% endblock %}"/>
-    <meta property="og:url" content="{% block og_url %}{{ app.request.uri }}{% endblock %}"/>
+    <meta property="og:type" content="{% apply trim %}{% block og_type %}website{% endblock %}{% endapply %}"/>
+    <meta property="og:url" content="{% apply trim %}{% block og_url %}{{ app.request.uri }}{% endblock %}{% endapply %}"/>
     <meta property="og:image"
-          content="{% block og_image %}https://jphiweb.be/images/og_image_jphiweb_be.jpg{% endblock %}"/>
-    <meta property="og:image:alt" content="{% block og_image_alt %}Site web à Court-Saint-Étienne{% endblock %}">
+          content="{% apply trim %}{% block og_image %}https://jphiweb.be/images/og_image_jphiweb_be.jpg{% endblock %}{% endapply %}"/>
+    <meta property="og:image:alt" content="{% apply trim %}{% block og_image_alt %}Site web à Court-Saint-Étienne{% endblock %}{% endapply %}">
 
     <meta property="og:site_name"
-          content="{% block og_site_name %}Sites web pour artisans et indépendants - Court-Saint-Étienne{% endblock %}"/>
-    <meta property="og:locale" content="{% block og_locale %}fr_BE{% endblock %}"/>
+          content="{% apply trim %}{% block og_site_name %}Sites web pour artisans et indépendants - Court-Saint-Étienne{% endblock %}{% endapply %}"/>
+    <meta property="og:locale" content="{% apply trim %}{% block og_locale %}fr_BE{% endblock %}{% endapply %}"/>
     <meta property="og:description"
-          content="{% block og_description %}Indépendant ou PME en Brabant wallon ? Je crée, modernise ou fais évoluer votre site web depuis Court-Saint-Étienne. Un interlocuteur qui répond, sans jargon.{% endblock %}"/>
+          content="{% apply trim %}{% block og_description %}Indépendant ou PME en Brabant wallon ? Je crée, modernise ou fais évoluer votre site web depuis Court-Saint-Étienne. Un interlocuteur qui répond, sans jargon.{% endblock %}{% endapply %}"/>
 
     <!-- Image partagée sur les réseaux -->
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title"
-          content="{% block twitter_title %}Site web pour indépendants et PME en Brabant wallon | Jphiweb{% endblock %}">
+          content="{% apply trim %}{% block twitter_title %}Site web pour indépendants et PME en Brabant wallon | Jphiweb{% endblock %}{% endapply %}">
     <meta name="twitter:description"
-          content="{% block twitter_description %}Indépendant ou PME en Brabant wallon ? Je crée, modernise ou fais évoluer votre site web depuis Court-Saint-Étienne. Un interlocuteur qui répond, sans jargon.{% endblock %}">
+          content="{% apply trim %}{% block twitter_description %}Indépendant ou PME en Brabant wallon ? Je crée, modernise ou fais évoluer votre site web depuis Court-Saint-Étienne. Un interlocuteur qui répond, sans jargon.{% endblock %}{% endapply %}">
     <meta name="twitter:image"
-          content="{% block twitter_image %}https://jphiweb.be/images/og_image_jphiweb_be.jpg {% endblock %}">
+          content="{% apply trim %}{% block twitter_image %}https://jphiweb.be/images/og_image_jphiweb_be.jpg{% endblock %}{% endapply %}">
     <meta name="twitter:image:alt"
-          content="{% block twitter_image_alt %}Création de Site Web à Court-Saint-Etienne dans le Brabant Wallon | Jphiweb{% endblock %}">
+          content="{% apply trim %}{% block twitter_image_alt %}Création de Site Web à Court-Saint-Etienne dans le Brabant Wallon | Jphiweb{% endblock %}{% endapply %}">
 
 
     {% block stylesheets %}
@@ -92,7 +92,9 @@
                         },
                         "image": "https://jphiweb.be/images/jphiweb_facebook_image.webp",
                         "description": "Partenaire web à Court-Saint-Étienne : création de sites vitrines, e-commerce, optimisation SEO local pour artisans et PME en Brabant Wallon.",
-                        "telephone": "+32XXXXXXXXX",
+                        {% if contact_phone %}
+                        "telephone": {{ contact_phone|json_encode|raw }},
+                        {% endif %}
                         "email": "bonjour@jphiweb.be",
                         "priceRange": "€€",
                         "currenciesAccepted": "EUR",

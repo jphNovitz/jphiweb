@@ -3,15 +3,15 @@
 {% block title %}{{ project.seoTitle }}{% endblock %}
 {% block metas %}
     <meta name="description"
-          content=" {{ project.seoSummary }}"/>
+          content="{{ project.seoSummary|trim }}"/>
 {% endblock %}
 {% block og_title %}{{ project.seoTitle }}{% endblock %}
-{% block og_image %}{{ asset("/images/projets/"~project.image) }} {% endblock %}
+{% block og_image %}{{ asset("/images/projets/"~project.image) }}{% endblock %}
 {% block og_image_alt %}{{ project.seoTitle }}{% endblock %}
 {% block og_description %}{{ project.seoSummary }}{% endblock %}
 {% block twitter_title %}{{ project.seoTitle }}{% endblock %}
 {% block twitter_description %}{{ project.seoSummary }}{% endblock %}
-{% block twitter_image %}{{ asset("/images/projets/"~project.image) }} {% endblock %}
+{% block twitter_image %}{{ asset("/images/projets/"~project.image) }}{% endblock %}
 {% block twitter_image_alt %}{{ project.seoTitle }}{% endblock %}
 
 
