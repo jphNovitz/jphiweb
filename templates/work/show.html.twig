@@ -21,7 +21,7 @@
             "@type": "Service",
             "@id": "{{ absolute_url(path('app_work_show', { slug: work.slug, type: work.type.value })) }}#service",
             "name": "{{ work.name|e('js') }}",
-            "description": "{{ work.description|default('Création de site web professionnel.')|striptags|trim|e('js') }}",
+            "description": {{ (work.descriptionShort ?: work.seoDescription ?: 'Création de site web professionnel.')|striptags|trim|json_encode(constant('JSON_UNESCAPED_UNICODE'))|raw }},
             "url": "{{ absolute_url(path('app_work_show', { slug: work.slug , type: work.type.value})) }}",
             {% if work.image %}
             "image": "{{ absolute_url(asset('images/work/' ~ work.image)) }}",
