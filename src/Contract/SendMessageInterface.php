@@ -8,5 +8,5 @@ use Symfony\Component\Mime\Email;
 
 interface SendMessageInterface
 {
-    public function __invoke(?string $email, ?string $phone, ?string $message);
+    public function __invoke(?string $email, ?string $phone, ?string $message, ?string $name = null);
 }

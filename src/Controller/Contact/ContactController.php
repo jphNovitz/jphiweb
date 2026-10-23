@@ -38,9 +38,8 @@ class ContactController extends AbstractController
             $em->flush();
             $this->addFlash('success', 'Votre message a été envoyé.');
 
-            $sendMessage($datas->getEmail(),null , $datas->getText()); //phone removed
+            $sendMessage($datas->getEmail(), null, $datas->getText(), $datas->getName()); //phone removed
 
-            $this->addFlash('success', 'Your message have been send');
             return $this->redirectToRoute('app_contact');
         }
 
