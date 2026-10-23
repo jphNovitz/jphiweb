@@ -21,7 +21,7 @@ final class ProjectController extends AbstractController
     }
 
     #[Route('/realisations/{slug}', name: 'app_project_show')]
-    public function show(Project $project = null): Response
+    public function show(Project $project): Response
     {
         return $this->render('project/show.html.twig', [
             'project' => $project,
