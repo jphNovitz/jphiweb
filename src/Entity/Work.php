@@ -89,6 +89,13 @@ class Work
     #[ORM\Column(type: Types::BOOLEAN, options: ['default' => false])]
     private bool $showHostingNote = false;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Length(
+        max: 255,
+        maxMessage: 'Maximum {{ limit }} caractères.'
+    )]
+    private ?string $priceNote = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -271,6 +278,18 @@ class Work
     public function setShowHostingNote(bool $showHostingNote): static
     {
         $this->showHostingNote = $showHostingNote;
+
+        return $this;
+    }
+
+    public function getPriceNote(): ?string
+    {
+        return $this->priceNote;
+    }
+
+    public function setPriceNote(?string $priceNote): static
+    {
+        $this->priceNote = $priceNote;
 
         return $this;
     }

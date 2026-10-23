@@ -131,12 +131,17 @@
             {{work.descriptionShort}}
           </p>
           
-          {% if work.price %}
+          {% if work.price or work.priceNote %}
             <div>
-              <p class="text-xl">{{work.price}} € HTVA{% for mention in work.priceMentions %} <span class="text-base-content/50">{{ '**'|slice(0, loop.index) }}</span>{% endfor %}</p>
-              {% for mention in work.priceMentions %}
-                <p class="text-xs text-base-content/60 mt-1">{{ '**'|slice(0, loop.index) }} {{ mention.label }}</p>
-              {% endfor %}
+              {% if work.price %}
+                <p class="text-xl">{{work.price}} € HTVA{% for mention in work.priceMentions %} <span class="text-base-content/50">{{ '**'|slice(0, loop.index) }}</span>{% endfor %}</p>
+                {% for mention in work.priceMentions %}
+                  <p class="text-xs text-base-content/60 mt-1">{{ '**'|slice(0, loop.index) }} {{ mention.label }}</p>
+                {% endfor %}
+              {% endif %}
+              {% if work.priceNote %}
+                <p class="text-xs text-base-content/60 mt-1">{{ work.priceNote }}</p>
+              {% endif %}
             </div>
           {% endif %}
           <!-- CTA démo -->
