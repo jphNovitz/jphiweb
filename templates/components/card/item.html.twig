@@ -3,14 +3,14 @@
    - work.image
    - work.name
    - work.descriptionShort
-   - work.price
+   - work.price, work.showStartingFrom, work.showHostingNote, work.priceNote
    - work.type.value
    - work.slug
  #}
 <article class="card bg-base-100 card-lg shadow-sm transition-all">
     <figure class="aspect-square overflow-hidden p-10">
         {% if work.image %}
-            <img src="/images/work/{{ asset(work.image) }}" alt="{{ work.name }}"
+            <img src="{{ asset('images/work/' ~ work.image) }}" alt="{{ work.name }}"
                  class="w-full h-full object-cover"/>
         {% else %}
             <svg xmlns="http://www.w3.org/2000/svg" class="size-16 text-base-content/20" fill="none"
@@ -31,12 +31,20 @@
             </p>
         {% endif %}
 
-        {% if work.price %}
+        {% if work.price or work.priceNote %}
             <div class="mt-auto text-center">
-                {% if work.showStartingFrom %}
-                    <p class="text-sm text-base-content/60 leading-tight mb-0">{{ enum('App\\Enum\\PriceMention').StartingFrom.label }}</p>
+                {% if work.price %}
+                    {% if work.showStartingFrom %}
+                        <p class="text-sm text-base-content/60 leading-tight mb-0">{{ enum('App\\Enum\\PriceMention').StartingFrom.label }}</p>
+                    {% endif %}
+                    <p class="text-xl font-medium leading-tight">{{ work.price }} € HTVA</p>
+                    {% if work.showHostingNote %}
+                        <p class="text-xs text-base-content/60 mt-1">{{ enum('App\\Enum\\PriceMention').HostingNote.label }}</p>
+                    {% endif %}
                 {% endif %}
-                <p class="text-xl font-medium leading-tight">{{ work.price }} € HTVA</p>
+                {% if work.priceNote %}
+                    <p class="text-xs text-base-content/60 mt-1">{{ work.priceNote }}</p>
+                {% endif %}
             </div>
         {% endif %}
     </div>

@@ -96,6 +96,9 @@ class Work
     )]
     private ?string $priceNote = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $position = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -290,6 +293,18 @@ class Work
     public function setPriceNote(?string $priceNote): static
     {
         $this->priceNote = $priceNote;
+
+        return $this;
+    }
+
+    public function getPosition(): ?int
+    {
+        return $this->position;
+    }
+
+    public function setPosition(?int $position): static
+    {
+        $this->position = $position;
 
         return $this;
     }

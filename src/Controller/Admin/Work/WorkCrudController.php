@@ -70,6 +70,8 @@ class WorkCrudController extends AbstractCrudController
             IntegerField::new('price', new TranslatableMessage('Price')),
             BooleanField::new('active', new TranslatableMessage('Active')),
             BooleanField::new('front', new TranslatableMessage('Front')),
+            IntegerField::new('position', new TranslatableMessage('Ordre sur l\'index'))
+                ->setHelp('Plus petit = plus haut'),
             BooleanField::new('showStartingFrom', new TranslatableMessage('Mention « À partir de »')),
             BooleanField::new('showHostingNote', new TranslatableMessage('Mention hébergement et nom de domaine')),
             TextField::new('priceNote', new TranslatableMessage('Note de prix'))

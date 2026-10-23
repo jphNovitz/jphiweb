@@ -2,7 +2,6 @@
 
 namespace App\EventSubscriber;
 
-use App\Enum\WorkType;
 use App\Repository\BlogRepository;
 use App\Repository\ProjectRepository;
 use App\Repository\TopicRepository;
@@ -91,18 +90,6 @@ class SitemapSubscriber implements EventSubscriberInterface
 
     private function registerWorksUrls(UrlContainerInterface $urls, UrlGeneratorInterface $router): void
     {
-        foreach (WorkType::cases() as $type) {
-            $urls->addUrl(
-                new UrlConcrete(
-                    $router->generate('app_work_type', ['type' => $type->value], UrlGeneratorInterface::ABSOLUTE_URL),
-                    null,
-                    UrlConcrete::CHANGEFREQ_MONTHLY,
-                    0.8
-                ),
-                'services'
-            );
-        }
-
         foreach ($this->workRepository->findBy(['active' => true]) as $work) {
             if (null === $work->getType()) {
                 continue;

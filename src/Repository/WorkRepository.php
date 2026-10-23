@@ -58,6 +58,24 @@ class WorkRepository extends ServiceEntityRepository
     }
 
     /**
+     * Active works by position, works without position last, then by name.
+     *
+     * @return Work[]
+     */
+    public function findActiveOrdered(): array
+    {
+        return $this->createQueryBuilder('w')
+            ->addSelect('CASE WHEN w.position IS NULL THEN 1 ELSE 0 END AS HIDDEN positionIsNull')
+            ->where('w.active = :active')
+            ->setParameter('active', true)
+            ->orderBy('positionIsNull', 'ASC')
+            ->addOrderBy('w.position', 'ASC')
+            ->addOrderBy('w.name', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
      * @return Work[] Returns an array of Work objects
      */
     public function findAllWithNameAndSlug(): array

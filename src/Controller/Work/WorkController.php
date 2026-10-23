@@ -10,6 +10,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class WorkController extends AbstractController
 {
@@ -18,24 +19,23 @@ class WorkController extends AbstractController
     #[Route('/services', name: 'app_work_index')]
     public function index(WorkRepository $repo): Response
     {
-        return $this->render('work/index.html.twig');
+        return $this->render('work/index.html.twig', [
+            'works' => $repo->findActiveOrdered(),
+        ]);
     }
 
+    // Former category hubs, now merged into /services
     #[Route('/services/{type}', name: 'app_work_type')]
-    public function byType(string $type, WorkRepository $repo): Response
+    public function byType(string $type, UrlGeneratorInterface $urlGenerator): Response
     {
-        $workType = WorkType::tryFrom($type);
-
-        if (!$workType) {
+        if (!WorkType::tryFrom($type)) {
             throw $this->createNotFoundException();
         }
 
-        $works = $repo->findActive($workType);
-
-        return $this->render('work/type/index.html.twig', [
-            'works' => $works,
-            'type'  => $workType,
-        ]);
+        return $this->redirect(
+            $urlGenerator->generate('app_work_index', [], UrlGeneratorInterface::ABSOLUTE_URL),
+            Response::HTTP_MOVED_PERMANENTLY
+        );
     }
 
     #[Route('/services/{type}/{slug}', name: 'app_work_show')]
