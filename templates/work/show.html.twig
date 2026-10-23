@@ -62,10 +62,17 @@
                 "@type": "Offer",
                 "url": "{{ absolute_url(path('app_work_show', { slug: work.slug, type: work.type.value })) }}",
                 "priceCurrency": "EUR",
-                "price": "{{ work.price }}",
+                "price": {{ work.price }},
+                {% if work.showHostingNote %}
+                "description": {{ enum('App\\Enum\\PriceMention').HostingNote.label|json_encode(constant('JSON_UNESCAPED_UNICODE'))|raw }},
+                {% endif %}
                 "priceSpecification": {
                     "@type": "PriceSpecification",
-                    "price": "{{ work.price }}",
+                    {% if work.showStartingFrom %}
+                    "minPrice": {{ work.price }},
+                    {% else %}
+                    "price": {{ work.price }},
+                    {% endif %}
                     "priceCurrency": "EUR",
                     "valueAddedTaxIncluded": false
                 }
