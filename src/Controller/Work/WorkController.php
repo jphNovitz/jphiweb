@@ -24,7 +24,12 @@ class WorkController extends AbstractController
     #[Route('/services/{type}', name: 'app_work_type')]
     public function byType(string $type, WorkRepository $repo): Response
     {
-        $workType = WorkType::from($type);
+        $workType = WorkType::tryFrom($type);
+
+        if (!$workType) {
+            throw $this->createNotFoundException();
+        }
+
         $works = $repo->findActive($workType);
 
         return $this->render('work/type/index.html.twig', [
@@ -40,6 +45,13 @@ class WorkController extends AbstractController
 
         if (!$work) {
             throw $this->createNotFoundException();
+        }
+
+        if ($work->getType() && $work->getType()->value !== $type) {
+            return $this->redirectToRoute('app_work_show', [
+                'type' => $work->getType()->value,
+                'slug' => $work->getSlug(),
+            ], Response::HTTP_MOVED_PERMANENTLY);
         }
 
         return $this->render('work/show.html.twig', [

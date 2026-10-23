@@ -20,7 +20,7 @@
             "@context": "https://schema.org",
             "@type": "Service",
             "@id": "{{ absolute_url(path('app_work_show', { slug: work.slug, type: work.type.value })) }}#service",
-            "name": "{{ work.name|e('js') }}",
+            "name": {{ work.name|json_encode(constant('JSON_UNESCAPED_UNICODE'))|raw }},
             "description": {{ (work.descriptionShort ?: work.seoDescription ?: 'Création de site web professionnel.')|striptags|trim|json_encode(constant('JSON_UNESCAPED_UNICODE'))|raw }},
             "url": "{{ absolute_url(path('app_work_show', { slug: work.slug , type: work.type.value})) }}",
             {% if work.image %}
@@ -57,13 +57,20 @@
                     "@type": "Country",
                     "name": "Belgique"
                 }
-            ],
+            ]{% if work.price %},
             "offers": {
                 "@type": "Offer",
                 "url": "{{ absolute_url(path('app_work_show', { slug: work.slug, type: work.type.value })) }}",
                 "priceCurrency": "EUR",
-                "price": "{{ work.price }}"
+                "price": "{{ work.price }}",
+                "priceSpecification": {
+                    "@type": "PriceSpecification",
+                    "price": "{{ work.price }}",
+                    "priceCurrency": "EUR",
+                    "valueAddedTaxIncluded": false
+                }
             }
+            {% endif %}
         }
     </script>
 {% endblock %}
@@ -85,8 +92,8 @@
         <!-- Image -->
 
         <figure class="rounded-2xl overflow-hidden aspect-square lg:aspect-[4/5] w-full bg-base-200 border border-base-300 flex items-center justify-center">
-          {% if work.image is not null %}
-            <img src="/images/work/{{ asset(work.image) }}" alt="{{ work.descriptionShort }}" class="w-full h-full object-cover">
+          {% if work.image %}
+            <img src="{{ asset('images/work/' ~ work.image) }}" alt="{{ work.descriptionShort }}" class="w-full h-full object-cover">
           {% else %}
             <svg xmlns="http://www.w3.org/2000/svg" class="size-16 text-base-content/20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
@@ -131,7 +138,7 @@
 
             <a
 
-              href="/contact"
+              href="{{ path('app_contact') }}"
 
               class="btn btn-primary gap-2"
 
