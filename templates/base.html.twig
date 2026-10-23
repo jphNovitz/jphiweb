@@ -37,9 +37,9 @@
         <meta name="robots" content="index,follow"/>
     {% endblock %}
 
-    <link rel="canonical" href="{{ absolute_url(app.request.attributes.get('_route')
+    <link rel="canonical" href="{% apply trim %}{% block canonical %}{{ absolute_url(app.request.attributes.get('_route')
         ? path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params', {}))
-        : path(app.request.pathinfo)) }}"/>
+        : path(app.request.pathinfo)) }}{% endblock %}{% endapply %}"/>
 
     <meta property="og:title"
           content="{% apply trim %}{% block og_title %}Site web pour indépendants et PME en Brabant wallon | Jphiweb{% endblock %}{% endapply %}"/>

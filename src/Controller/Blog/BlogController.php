@@ -52,10 +52,21 @@ class BlogController extends AbstractController
         'topicSlug' => 'creation-site-internet-brabant-wallon|creation-site-internet-court-saint-etienne|creation-site-web-liege|web-conseils|symfony-et-ses-outils',
         'slug' => '[a-z0-9\-]+'
     ])]
-    public function show(Blog $post): Response
+    public function show(string $topicSlug, Blog $post): Response
     {
         if (!$post->isPublished()) {
             throw new GoneHttpException();
+        }
+
+        if (!$post->getTopic()) {
+            throw $this->createNotFoundException();
+        }
+
+        if ($post->getTopic()->getSlug() !== $topicSlug) {
+            return $this->redirectToRoute('app_blog_show', [
+                'topicSlug' => $post->getTopic()->getSlug(),
+                'slug' => $post->getSlug(),
+            ], Response::HTTP_MOVED_PERMANENTLY);
         }
 
         return $this->render('blog/show.html.twig', [
@@ -65,6 +76,10 @@ class BlogController extends AbstractController
     #[Route('/focus-sur/{slug}', name: 'app_blog_redirect_legacy')]
     public function redirectLegacy(Blog $post): Response
     {
+        if (!$post->getTopic()) {
+            throw $this->createNotFoundException();
+        }
+
         return $this->redirectToRoute('app_blog_show', [
             'topicSlug' => $post->getTopic()->getSlug(),
             'slug' => $post->getSlug(),
