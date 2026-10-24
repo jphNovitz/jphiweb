@@ -22,14 +22,14 @@
                         tabindex="0"
                         class="menu menu-sm dropdown-content rounded-box z-[1] w-screen h-96 mt-3 w-52 p-2 shadow bg-base-300">
                     <li class="">
-                        <a class="{% if (app.request.get('_route') == 'app_home') %} link link-primary {% endif %}"
+                        <a class="{% if (app.current_route == 'app_home') %} link link-primary {% endif %}"
                            href="{{ path('app_home') }}">Accueil</a>
                     </li>
-                    <li class="{% if (app.request.get('_route') == 'app_work_index') %} link link-primary {% endif %}">
+                    <li class="{% if (app.current_route == 'app_work_index') %} link link-primary {% endif %}">
                         <a class="" href="{{ path('app_work_index') }}">Services</a></li>
-                    <li class="{% if (app.request.get('_route') == 'app_project_list') %} link link-primary {% endif %}">
+                    <li class="{% if (app.current_route == 'app_project_list') %} link link-primary {% endif %}">
                         <a class="" href="{{ path('app_project_list') }}">Réalisations</a></li>
-                    <li class="{% if (app.request.get('_route') == 'app_contact') %} link link-primary {% endif %}">
+                    <li class="{% if (app.current_route == 'app_contact') %} link link-primary {% endif %}">
                         <a class="" href="{{ path('app_contact') }}">Contact</a></li>
                 </ul>
             </div>
@@ -39,14 +39,14 @@
         <div class="navbar-center hidden lg:flex">
             <ul class="menu menu-horizontal mb-0">
                 <li class="p-2">
-                    <a class="{% if (app.request.get('_route') == 'app_home') %} link link-primary {% endif %}"
+                    <a class="{% if (app.current_route == 'app_home') %} link link-primary {% endif %}"
                        href="{{ path('app_home') }}">Accueil</a>
                 </li>
-                <li class="{% if (app.request.get('_route') == 'app_work_index') %} link link-primary {% endif %}"><a
+                <li class="{% if (app.current_route == 'app_work_index') %} link link-primary {% endif %}"><a
                             class="" href="{{ path('app_work_index') }}">Services</a></li>
-                <li class="{% if (app.request.get('_route') == 'app_project_list') %} link link-primary {% endif %}">
+                <li class="{% if (app.current_route == 'app_project_list') %} link link-primary {% endif %}">
                     <a class="" href="{{ path('app_project_list') }}">Réalisations</a></li>
-                <li class="{% if (app.request.get('_route') == 'app_contact') %} link link-primary {% endif %}"><a
+                <li class="{% if (app.current_route == 'app_contact') %} link link-primary {% endif %}"><a
                             class="" href="{{ path('app_contact') }}">Contact</a></li>
             </ul>
         </div>

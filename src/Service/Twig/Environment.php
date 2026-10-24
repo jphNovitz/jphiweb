@@ -13,7 +13,7 @@ class Environment extends BaseEnvironment
         $this->presetGlobals = $names;
     }
 
-    public function addGlobal(string $name, $value)
+    public function addGlobal(string $name, $value): void
     {
         $presetGlobals = $this->presetGlobals;
 
