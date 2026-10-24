@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class ContactController extends AbstractController
 {
-    #[Route('/contact', name: 'app_contact', options: ['sitemap' => true])]
+    #[Route('/contact', name: 'app_contact')]
     public function index(Request $request, EntityManagerInterface $em,
                           SendMessageInterface $sendMessage,
                           Recaptcha3Validator $recaptcha3Validator): Response

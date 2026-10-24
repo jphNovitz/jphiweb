@@ -1,7 +1,9 @@
 presta_sitemap:
   default_section: pages
+  # Static pages are registered by App\EventSubscriber\SitemapSubscriber with a real lastmod.
+  # Google ignores changefreq and priority, and "now" as lastmod makes it distrust the dates.
   defaults:
-    priority: 0.5
-    changefreq: monthly
-    lastmod: now
+    priority: ~
+    changefreq: ~
+    lastmod: ~
   timetolive: 3600

@@ -39,6 +39,22 @@ class BlogRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * Published posts reachable by URL, with their topic loaded in the same query
+     *
+     * @return Blog[]
+     */
+    public function findPublishedWithTopic(): array
+    {
+        return $this->createQueryBuilder('b')
+            ->addSelect('t')
+            ->innerJoin('b.topic', 't')
+            ->where('b.published = :published')
+            ->setParameter('published', true)
+            ->getQuery()
+            ->getResult();
+    }
+
     function findAllQuery(){
         return $this->createQueryBuilder('b')
             ->where('b.published = :published' )
