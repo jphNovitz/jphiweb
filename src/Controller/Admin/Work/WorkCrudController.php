@@ -80,7 +80,7 @@ class WorkCrudController extends AbstractCrudController
                 ->hideOnIndex(),
             ImageField::new('image', new TranslatableMessage('Image'))
                 ->setUploadDir('public/images/work/')
-                ->setBasePath('public/images/work/'),
+                ->setBasePath('/images/work/'),
             ChoiceField::new('type')
                 ->setChoices(WorkType::cases())
                 ->setFormTypeOption('choice_label', fn (WorkType $choice) => $choice->name)

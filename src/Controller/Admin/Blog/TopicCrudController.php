@@ -45,7 +45,7 @@ class TopicCrudController extends AbstractCrudController
                 ->hideOnIndex(),
             ImageField::new('image', new TranslatableMessage('Image'))
                 ->setUploadDir('public/images/topic/')
-                ->setBasePath('public/images/topic/'),
+                ->setBasePath('/images/topic/'),
             TextField::new('imageAlt', new TranslatableMessage('Image alt'))
                 ->setColumns(12)
                 ->setHelp('Texte alternatif de l’image'),
