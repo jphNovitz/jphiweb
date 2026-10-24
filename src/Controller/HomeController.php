@@ -35,6 +35,26 @@ class HomeController extends AbstractController
 
         $pinnedBlogs = $em->getRepository(Blog::class)->findBy(['pin' => true, 'published' => true]);
 
+        // Validators follow the templates (updated by git pull on deploy) and the pinned posts
+        $lastModified = $this->getTemplatesLastModified();
+        foreach ($pinnedBlogs as $blog) {
+            if ($blog->getUpdatedAt() > $lastModified) {
+                $lastModified = $blog->getUpdatedAt();
+            }
+        }
+        $etag = md5($request->getPathInfo() . $lastModified->format('U') . implode(',', array_map(
+            fn (Blog $blog) => $blog->getId(),
+            $pinnedBlogs
+        )));
+
+        $response = new Response();
+        $response->setPublic();
+        $response->setLastModified($lastModified);
+        $response->setEtag($etag);
+        if ($response->isNotModified($request)) {
+            return $response;
+        }
+
         $response = $this->render('home/index.html.twig', [
             'pinned' => $pinnedBlogs,
 //            'form' => $form->createView(),
@@ -49,8 +69,8 @@ class HomeController extends AbstractController
             'public'        => true,
             'max_age'       => 86400,     // 24h
             'must_revalidate' => true,
-            'last_modified' => new \DateTime('2026-05-05'),
-            'etag'          => md5($request->getPathInfo()),
+            'last_modified' => $lastModified,
+            'etag'          => $etag,
         ]);
         // (optional) set a custom Cache-Control directive
         $response->headers->addCacheControlDirective('must-revalidate', true);
@@ -60,6 +80,23 @@ class HomeController extends AbstractController
         // return $this->render('home/index.html.twig', [
         //     'form' => $form->createView(),
         // ]);
+    }
+
+    private function getTemplatesLastModified(): \DateTime
+    {
+        $projectDir = $this->getParameter('kernel.project_dir');
+        $files = array_merge(
+            glob($projectDir . '/templates/base.html.twig'),
+            glob($projectDir . '/templates/home/*.twig'),
+            glob($projectDir . '/templates/_partials/*.twig'),
+            glob($projectDir . '/templates/components/*.twig'),
+            glob($projectDir . '/templates/components/*/*.twig'),
+            glob($projectDir . '/translations/*.yaml'),
+        );
+
+        $timestamp = max(array_map('filemtime', $files) ?: [0]);
+
+        return (new \DateTime())->setTimestamp($timestamp);
     }
 
     #[Route('/mentions-legales', name: 'app_mentions_legales')]
