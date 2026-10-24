@@ -2,28 +2,26 @@
 
 namespace App\Controller\Admin;
 
-use App\Controller\Admin\Message\MessageCrudController;
 use App\Controller\Admin\Blog\BlogCrudController;
-use App\Entity\Blog;
-use App\Entity\Category;
-use App\Entity\Message;
-use App\Entity\Project;
-use App\Entity\Role;
-use App\Entity\Tag;
-use App\Entity\Technology;
-use App\Entity\Topic;
-use App\Entity\Work;
+use App\Controller\Admin\Blog\TopicCrudController;
+use App\Controller\Admin\Message\MessageCrudController;
+use App\Controller\Admin\Project\CategoryCrudController;
+use App\Controller\Admin\Project\ProjectCrudController;
+use App\Controller\Admin\Project\RoleCrudController;
+use App\Controller\Admin\Project\TagCrudController;
+use App\Controller\Admin\Project\TechnologyCrudController;
+use App\Controller\Admin\Work\WorkCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
+#[AdminDashboard(routePath: '/admin', routeName: 'admin')]
 class DashboardController extends AbstractDashboardController
 {
-    #[Route('/admin', name: 'admin')]
     #[IsGranted('ROLE_ADMIN')]
     public function index(): Response
     {
@@ -56,18 +54,18 @@ class DashboardController extends AbstractDashboardController
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
 //        yield MenuItem::linkToMessage('Messages', 'fa fa-envelope');
-        yield MenuItem::linkToCrud('Messages', 'fas fa-envelope', Message::class);
-        yield MenuItem::linkToCrud('Services', 'fas fa-envelope', Work::class);
+        yield MenuItem::linkTo(MessageCrudController::class, 'Messages', 'fas fa-envelope');
+        yield MenuItem::linkTo(WorkCrudController::class, 'Services', 'fas fa-envelope');
         yield MenuItem::submenu('Blog', 'fas fa-blog')
         ->setSubItems([
-            MenuItem::linkToCrud('Blog', 'fas fa-blog', Blog::class),
-            MenuItem::linkToCrud('Topic', 'fas fa-blog', Topic::class),
+            MenuItem::linkTo(BlogCrudController::class, 'Blog', 'fas fa-blog'),
+            MenuItem::linkTo(TopicCrudController::class, 'Topic', 'fas fa-blog'),
         ]);
-        yield MenuItem::linkToCrud('Projects', 'fas fa-tasks', Project::class);
-        yield MenuItem::linkToCrud('Technologies', 'fas fa-microchip', Technology::class);
-        yield MenuItem::linkToCrud('Tags', 'fas fa-tags', Tag::class);
-        yield MenuItem::linkToCrud('Categories', 'fas fa-layer-group', Category::class);
-        yield MenuItem::linkToCrud('Roles', 'fas fa-user-tie', Role::class);
+        yield MenuItem::linkTo(ProjectCrudController::class, 'Projects', 'fas fa-tasks');
+        yield MenuItem::linkTo(TechnologyCrudController::class, 'Technologies', 'fas fa-microchip');
+        yield MenuItem::linkTo(TagCrudController::class, 'Tags', 'fas fa-tags');
+        yield MenuItem::linkTo(CategoryCrudController::class, 'Categories', 'fas fa-layer-group');
+        yield MenuItem::linkTo(RoleCrudController::class, 'Roles', 'fas fa-user-tie');
         // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
     }
 }
