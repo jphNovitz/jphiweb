@@ -4,6 +4,7 @@ namespace App\Controller\Project;
 
 use App\Entity\Project;
 use App\Repository\ProjectRepository;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\GoneHttpException;
@@ -22,7 +23,7 @@ final class ProjectController extends AbstractController
     }
 
     #[Route('/realisations/{slug}', name: 'app_project_show')]
-    public function show(Project $project): Response
+    public function show(#[MapEntity(mapping: ['slug' => 'slug'])] Project $project): Response
     {
         if (!$project->isPublished()) {
             throw new GoneHttpException();
