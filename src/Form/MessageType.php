@@ -29,10 +29,6 @@ class MessageType extends AbstractType
             ->add('text', TextareaType::class, [
                 'label' => 'Your_message'
             ])
-            ->add('seen', CheckboxType::class, [
-                'required' => false,
-                'label' => 'Seen'
-                ])
             ->add('save', SubmitType::class, [
                 'label' => 'Send'
             ])
