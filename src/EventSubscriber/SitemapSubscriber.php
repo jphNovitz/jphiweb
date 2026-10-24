@@ -73,7 +73,7 @@ class SitemapSubscriber implements EventSubscriberInterface
             ),
             'app_project_list' => $this->pageLastModified->compute(
                 ['project/index.html.twig'],
-                $this->projectRepository->findAll()
+                $this->projectRepository->findBy(['published' => true])
             ),
             'app_contact' => $this->pageLastModified->compute(['contact/*.twig']),
             'app_mentions_legales' => $this->pageLastModified->compute(['home/mentions-legales.html.twig']),
@@ -144,7 +144,7 @@ class SitemapSubscriber implements EventSubscriberInterface
 
     private function registerProjectsUrls(UrlContainerInterface $urls, UrlGeneratorInterface $router): void
     {
-        foreach ($this->projectRepository->findAll() as $project) {
+        foreach ($this->projectRepository->findBy(['published' => true]) as $project) {
             $urls->addUrl(
                 new UrlConcrete(
                     $router->generate('app_project_show', ['slug' => $project->getSlug()], UrlGeneratorInterface::ABSOLUTE_URL),

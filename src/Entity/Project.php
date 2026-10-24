@@ -43,6 +43,9 @@ class Project
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $link = null;
 
+    #[ORM\Column]
+    private bool $published = false;
+
     #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'projects')]
     private Collection $tags;
 
@@ -64,6 +67,18 @@ class Project
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function isPublished(): bool
+    {
+        return $this->published;
+    }
+
+    public function setPublished(bool $published): static
+    {
+        $this->published = $published;
+
+        return $this;
     }
 
     public function getTitle(): ?string

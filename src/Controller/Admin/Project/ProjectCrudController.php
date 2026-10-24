@@ -6,6 +6,7 @@ use App\Entity\Project;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
@@ -40,6 +41,7 @@ class ProjectCrudController extends AbstractCrudController
                 ->setMaxLength(160),
             TextField::new('header')->setColumns('20'),
             TextField::new('link'),
+            BooleanField::new('published', new TranslatableMessage('Published')),
             TextEditorField::new('description')
                 ->setFormType(CKEditorType::class)
                 ->setColumns('20')
