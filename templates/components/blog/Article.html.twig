@@ -19,11 +19,13 @@
 
         <div class="flex flex-col items-start leading-8 text-lg mx-auto my-8">
             {% if image_url is not empty %}
+                {% set size = image_size('images/' ~ image_url) %}
                 <figure class="w-full text-center">
                     <img
-                            class="w-full md:w-3/4 h-auto mx-auto my-8 rounded-lg shadow-md"
+                            class="w-full h-auto mx-auto my-8 rounded-lg shadow-md"
                             src="{{ asset('images/' ~ image_url) }}"
-                            loading="lazy"
+                            {% if size %}width="{{ size.width }}" height="{{ size.height }}"{% endif %}
+                            fetchpriority="high"
                             {% if image_alt is not empty %}
                                 alt="{{ image_alt }}"
                             {% else %}

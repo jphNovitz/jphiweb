@@ -65,7 +65,7 @@
         'title' : post.title,
         'summary': post.summary,
         'content' : post.content,
-        'image_url' : 'blog/'~post.image,
+        'image_url' : post.image ? 'blog/' ~ post.image : null,
         'image_alt' : post.imageAlt ?: post.title,
         'home' :  app.request.pathinfo == '/'
 

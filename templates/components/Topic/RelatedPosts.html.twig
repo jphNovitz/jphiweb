@@ -10,7 +10,8 @@
                     <div class="card bg-base-100 shadow-md hover:shadow-xl transition-shadow">
                         <figure class="relative aspect-video overflow-hidden">
                             {% if parentTopic.image %}
-                                <img src="{{ asset('images/topic/' ~ parentTopic.image) }}" alt="{{ parentTopic.imageAlt ?: parentTopic.title }}" class="w-full h-full object-cover"/>
+                                {% set size = image_size('images/topic/' ~ parentTopic.image) %}
+                                <img src="{{ asset('images/topic/' ~ parentTopic.image) }}" alt="{{ parentTopic.imageAlt ?: parentTopic.title }}" class="w-full h-full object-cover" loading="lazy" decoding="async"{% if size %} width="{{ size.width }}" height="{{ size.height }}"{% endif %}/>
                             {% else %}
                                 <div class="w-full h-full bg-base-200 flex items-center justify-center text-base-content/60">Aperçu</div>
                             {% endif %}
@@ -36,7 +37,8 @@
                     <div class="card bg-base-100 shadow-md hover:shadow-xl transition-shadow">
                         <figure class="relative aspect-video overflow-hidden">
                             {% if childTopic.image %}
-                                <img src="{{ asset('images/topic/' ~ childTopic.image) }}" alt="{{ childTopic.imageAlt ?: childTopic.title }}" class="w-full h-full object-cover"/>
+                                {% set size = image_size('images/topic/' ~ childTopic.image) %}
+                                <img src="{{ asset('images/topic/' ~ childTopic.image) }}" alt="{{ childTopic.imageAlt ?: childTopic.title }}" class="w-full h-full object-cover" loading="lazy" decoding="async"{% if size %} width="{{ size.width }}" height="{{ size.height }}"{% endif %}/>
                             {% else %}
                                 <div class="w-full h-full bg-base-200 flex items-center justify-center text-base-content/60">Aperçu</div>
                             {% endif %}
@@ -62,7 +64,8 @@
                     <div class="card bg-base-100 shadow-md hover:shadow-xl transition-shadow">
                         <figure class="relative aspect-video overflow-hidden">
                             {% if post.image %}
-                                <img src="{{ asset('images/blog/' ~ post.image) }}" alt="{{ post.imageAlt ?: post.title }}" class="w-full h-full object-cover"/>
+                                {% set size = image_size('images/blog/' ~ post.image) %}
+                                <img src="{{ asset('images/blog/' ~ post.image) }}" alt="{{ post.imageAlt ?: post.title }}" class="w-full h-full object-cover" loading="lazy" decoding="async"{% if size %} width="{{ size.width }}" height="{{ size.height }}"{% endif %}/>
                             {% else %}
                                 <div class="w-full h-full bg-base-200 flex items-center justify-center text-base-content/60">Aperçu</div>
                             {% endif %}
