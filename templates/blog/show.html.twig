@@ -8,13 +8,10 @@
 {% endblock %}
 {% block canonical %}{{ url('app_blog_show', {topicSlug: post.topic.slug, slug: post.slug}) }}{% endblock %}
 {% block og_title %}{{ post.seoTitle }}{% endblock %}
-{% block og_image %}{% if post.image %}{{ absolute_url(asset('images/blog/' ~ post.image)) }}{% else %}{{ absolute_url(asset('images/jphiweb_facebook_image.webp')) }}{% endif %}{% endblock %}
+{% block og_image %}{% if post.image %}{{ absolute_url(asset('images/blog/' ~ post.image)) }}{% else %}{{ parent() }}{% endif %}{% endblock %}
+{% block og_image_size %}{% if not post.image %}{{ parent() }}{% endif %}{% endblock %}
 {% block og_image_alt %}{{ post.imageAlt ?: post.seoTitle }}{% endblock %}
 {% block og_description %}{{ post.seoSummary }}{% endblock %}
-{% block twitter_title %}{{ post.seoTitle }}{% endblock %}
-{% block twitter_description %}{{ post.seoSummary }}{% endblock %}
-{% block twitter_image %}{% if post.image %}{{ absolute_url(asset('images/blog/' ~ post.image)) }}{% else %}{{ absolute_url(asset('images/jphiweb_facebook_image.webp')) }}{% endif %}{% endblock %}
-{% block twitter_image_alt %}{{ post.imageAlt ?: post.seoTitle }}{% endblock %}
 
 
 {% block json_ld %}
@@ -45,7 +42,7 @@
     {% set schema = schema|merge({
         "image": post.image
         ? absolute_url(asset('images/blog/' ~ post.image))
-        : absolute_url(asset('images/jphiweb_facebook_image.webp'))
+        : absolute_url(asset('images/og_image_jphiweb_be.jpg'))
     }) %}
 
     <script type="application/ld+json">

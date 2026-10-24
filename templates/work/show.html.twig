@@ -7,12 +7,9 @@
 {% endblock %}
 {% block og_title %}{{ work.seoTitle }}{% endblock %}
 {% block og_image %}{% if work.image %}{{ absolute_url(asset('images/work/' ~ work.image)) }}{% else %}{{ parent() }}{% endif %}{% endblock %}
+{% block og_image_size %}{% if not work.image %}{{ parent() }}{% endif %}{% endblock %}
 {% block og_image_alt %}{{ work.seoTitle }}{% endblock %}
 {% block og_description %}{{ work.seoDescription }}{% endblock %}
-{% block twitter_title %}{{ work.seoTitle }}{% endblock %}
-{% block twitter_description %}{{ work.seoDescription }}{% endblock %}
-{% block twitter_image %}{% if work.image %}{{ absolute_url(asset('images/work/' ~ work.image)) }}{% else %}{{ parent() }}{% endif %}{% endblock %}
-{% block twitter_image_alt %}{{ work.seoTitle }}{% endblock %}
 
 {% block json_ld %}
     <script type="application/ld+json">

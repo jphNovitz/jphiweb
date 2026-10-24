@@ -7,12 +7,9 @@
 {% endblock %}
 {% block og_title %}{{ project.seoTitle }}{% endblock %}
 {% block og_image %}{% if project.image %}{{ absolute_url(asset('images/projets/' ~ project.image)) }}{% else %}{{ parent() }}{% endif %}{% endblock %}
+{% block og_image_size %}{% if not project.image %}{{ parent() }}{% endif %}{% endblock %}
 {% block og_image_alt %}{{ project.seoTitle }}{% endblock %}
 {% block og_description %}{{ project.seoSummary }}{% endblock %}
-{% block twitter_title %}{{ project.seoTitle }}{% endblock %}
-{% block twitter_description %}{{ project.seoSummary }}{% endblock %}
-{% block twitter_image %}{% if project.image %}{{ absolute_url(asset('images/projets/' ~ project.image)) }}{% else %}{{ parent() }}{% endif %}{% endblock %}
-{% block twitter_image_alt %}{{ project.seoTitle }}{% endblock %}
 
 
 {% block json_ld %}
