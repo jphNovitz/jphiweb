@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Enum\SchemaType;
 use App\Repository\ProjectRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -40,6 +41,9 @@ class Project
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $image = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $imageAlt = null;
+
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $link = null;
 
@@ -57,6 +61,9 @@ class Project
 
     #[ORM\ManyToOne(targetEntity: Role::class, inversedBy: 'projects')]
     private ?Role $role = null;
+
+    #[ORM\Column(length: 30, enumType: SchemaType::class, options: ['default' => 'CreativeWork'])]
+    private SchemaType $schemaType = SchemaType::CreativeWork;
 
     public function __construct()
     {
@@ -125,6 +132,30 @@ class Project
     public function setImage(?string $image): static
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    public function getSchemaType(): SchemaType
+    {
+        return $this->schemaType;
+    }
+
+    public function setSchemaType(SchemaType $schemaType): static
+    {
+        $this->schemaType = $schemaType;
+
+        return $this;
+    }
+
+    public function getImageAlt(): ?string
+    {
+        return $this->imageAlt;
+    }
+
+    public function setImageAlt(?string $imageAlt): static
+    {
+        $this->imageAlt = $imageAlt;
 
         return $this;
     }

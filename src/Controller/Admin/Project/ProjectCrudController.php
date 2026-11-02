@@ -3,10 +3,12 @@
 namespace App\Controller\Admin\Project;
 
 use App\Entity\Project;
+use App\Enum\SchemaType;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
@@ -47,6 +49,12 @@ class ProjectCrudController extends AbstractCrudController
                 ->setColumns('20')
                 ->hideOnIndex(),
             AssociationField::new('category', 'Category'),
+            ChoiceField::new('schemaType', new TranslatableMessage('Schema type'))
+                ->setChoices(SchemaType::cases())
+                ->setFormTypeOption('choice_label', fn (SchemaType $choice) => $choice->label())
+                ->setFormTypeOption('choice_value', fn (?SchemaType $choice) => $choice?->value)
+                ->formatValue(fn (?SchemaType $value) => $value?->label())
+                ->setHelp('Type schema.org utilisé dans le JSON-LD de la page'),
             AssociationField::new('tags', 'Tags')
                 ->setFormTypeOptions([
                     'by_reference' => false, // Nécessaire pour ManyToMany
@@ -63,6 +71,9 @@ class ProjectCrudController extends AbstractCrudController
                 ->setBasePath('/images/projets')
                 ->setUploadedFileNamePattern('[randomhash].[extension]')
                 ->setRequired(false),
+            TextField::new('imageAlt', new TranslatableMessage('Image alt'))
+                ->setColumns(12)
+                ->setHelp('Texte alternatif de l’image'),
         ];
     }
 

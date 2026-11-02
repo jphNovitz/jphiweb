@@ -8,17 +8,18 @@
 {% block og_title %}{{ project.seoTitle }}{% endblock %}
 {% block og_image %}{% if project.image %}{{ absolute_url(asset('images/projets/' ~ project.image)) }}{% else %}{{ parent() }}{% endif %}{% endblock %}
 {% block og_image_size %}{% if not project.image %}{{ parent() }}{% endif %}{% endblock %}
-{% block og_image_alt %}{{ project.seoTitle }}{% endblock %}
+{% block og_image_alt %}{{ project.imageAlt ?: project.seoTitle }}{% endblock %}
 {% block og_description %}{{ project.seoSummary }}{% endblock %}
 
 
 {% block json_ld %}
     {% set schema = {
         "@context": "https://schema.org",
-        "@type": "Service",
+        "@type": project.schemaType.value,
+        "name": project.title,
         "headline": project.seoTitle,
         "description": project.seoSummary,
-        "image": absolute_url(asset('images/projets/' ~ project.image)),
+        "abstract": project.header,
         "author": {
             "@type": "Person",
             "@id": "https://jphiweb.be/#person_jphnovitz",
@@ -31,10 +32,23 @@
             "@type": "WebPage",
             "@id": url('app_project_show', {slug: project.slug})
         },
-        "articleSection": project.category.title|default(project.category),
-        "abstract": project.seoSummary,
-        "articleBody": project.description|striptags|slice(0, 500)
+        "image": project.image
+            ? absolute_url(asset('images/projets/' ~ project.image))
+            : absolute_url(asset('images/og_image_jphiweb_be.jpg'))
     } %}
+
+    {% if project.link %}
+        {% set schema = schema|merge({"url": project.link}) %}
+    {% endif %}
+
+    {# applicationCategory only exists on SoftwareApplication types #}
+    {% if project.category and project.schemaType.value == 'WebApplication' %}
+        {% set schema = schema|merge({"applicationCategory": project.category.name}) %}
+    {% endif %}
+
+    {% if project.technologies is not empty %}
+        {% set schema = schema|merge({"keywords": project.technologies|map(t => t.name)|join(', ')}) %}
+    {% endif %}
 
     <script type="application/ld+json">
         {{ schema|json_encode(256)|raw }}
@@ -50,63 +64,73 @@
 {% endblock %}
 
 {% block body %}
-    <div class="p-4 md:p-8 lg:p-16 flex flex-col gap-6 md:gap-12 lg:gap-24">
-        <!-- Image placeholder -->
-        <div class="image-placeholder h-auto flex items-center justify-center mb-6">
-            <img src="{{ asset('images/projets/' ~ project.image) }}"
-                 alt="Image d'illustration du projet {{ project.title }} par Jphiweb"/>
-        </div>
-        <div>
-            <!-- Titre principal -->
-            <twig:Title:H1>{{ project.title }}</twig:Title:H1>
+    <article class="w-full mx-auto mt-8 p-6 bg-white/10 rounded-lg shadow-lg">
+        <div class="max-w-2xl mx-auto">
 
-            <!-- Catégories et Technologies -->
-            <div class="flex flex-wrap gap-2 mb-4">
-                {% if project.category %}
-                    <span class="badge badge-primary font-semibold">{{ project.category.name }}</span>
+            <header class="mb-12">
+                <h1 class="text-3xl font-bold text-left">
+                    {{ project.title }}
+                </h1>
+
+                {% if project.category or project.technologies is not empty %}
+                    <div class="flex flex-wrap gap-2 mt-4">
+                        {% if project.category %}
+                            <span class="badge badge-primary font-semibold">{{ project.category.name }}</span>
+                        {% endif %}
+                        {% for technology in project.technologies %}
+                            <span class="badge badge-primary badge-outline">{{ technology.name }}</span>
+                        {% endfor %}
+                    </div>
                 {% endif %}
-                {% for technology in project.technologies %}
-                    <span class="badge badge-primary badge-outline">{{ technology.name }}</span>
-                {% endfor %}
+
+                {% if project.header is not empty %}
+                    <p class="mt-4">{{ project.header }}</p>
+                {% endif %}
+            </header>
+
+            <div class="flex flex-col items-start leading-8 text-lg mx-auto my-8">
+                {% if project.image %}
+                    {% set size = image_size('images/projets/' ~ project.image) %}
+                    <figure class="w-full text-center">
+                        <img
+                                class="w-full h-auto mx-auto my-8 rounded-lg shadow-md"
+                                src="{{ asset('images/projets/' ~ project.image) }}"
+                                {% if size %}width="{{ size.width }}" height="{{ size.height }}"{% endif %}
+                                fetchpriority="high"
+                                alt="{{ project.imageAlt ?: 'Image d\'illustration du projet ' ~ project.title ~ ' par Jphiweb' }}"
+                        />
+                    </figure>
+                {% endif %}
+
+                {{ project.description | raw }}
             </div>
 
-            <!-- Header -->
-            {% if project.header %}
-                <p class="text-xl italic font-semibold mt-6">{{ project.header }}</p>
-            {% endif %}
-        </div>
+            {% if project.tags is not empty or project.role or project.link %}
+                <footer class="flex flex-col gap-4 my-8">
+                    {% if project.tags is not empty %}
+                        <div class="flex flex-wrap gap-2">
+                            {% for tag in project.tags %}
+                                <span class="badge badge-accent font-semibold">{{ tag.name }}</span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
 
+                    {% if project.role %}
+                        <div><strong>Rôle :</strong> {{ project.role.name }}</div>
+                    {% endif %}
 
-        <!-- Corps du texte -->
-        <div class="content mb-6 text-lg">
-            {{ project.description | raw }}
-        </div>
-
-        <!-- Tags, Role et Lien -->
-        <div class="additional-info">
-            <!-- Tags -->
-            <div class="tags flex flex-wrap gap-2 mb-4">
-                {% for tag in project.tags %}
-                    <span class="badge badge-accent font-semibold">{{ tag.name }}</span>
-                {% endfor %}
-            </div>
-
-            <!-- Rôle -->
-            {% if project.role %}
-                <div class="role mb-4">
-                    <strong>Rôle :</strong> {{ project.role.name }}
-                </div>
+                    {% if project.link %}
+                        <div>
+                            <a href="{{ project.link }}" target="_blank" rel="noopener"
+                               class="link link-primary">Visitez {{ project.title }}</a>
+                        </div>
+                    {% endif %}
+                </footer>
             {% endif %}
 
-            <!-- Lien -->
-            {% if project.link %}
-                <div class="project-link">
-                    <a href="{{ project.link }}" target="_blank"
-                       class="link link-primary">Visitez {{ project.title }}</a>
-                </div>
-            {% endif %}
         </div>
-    </div>
+    </article>
+
     <div class="w-full my-16 text-sm lg:text-base bg-base-200 text-base-content border-y border-primary p-4 rounded">
         Un projet similaire en tête ? Je suis Jeanphi, développeur web indépendant à Court-Saint-Étienne.
         J’accompagne les indépendants et PME du Brabant wallon et de toute la Wallonie.
