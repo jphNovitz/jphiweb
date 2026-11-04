@@ -1,4 +1,8 @@
 {% extends 'base.html.twig' %}
+{% import '_macros/seo.html.twig' as seo %}
+
+{# Shared by the visible breadcrumb and its BreadcrumbList JSON-LD #}
+{% set breadcrumbItems = [{label: 'Accueil', url: path('app_home')}]|merge(topic.parentTopic ? [{label: topic.parentTopic.title, url: path('app_topic_show', {slug: topic.parentTopic.slug})}] : []) %}
 
 {% block title %}{{ topic.seoTitle }}{% endblock %}
 {% block metas %}
@@ -16,14 +20,14 @@
     {% set schema = {
         "@context": "https://schema.org",
         "@type": "CollectionPage",
+        "url": url('app_topic_show', {slug: topic.slug}),
+        "inLanguage": "fr-BE",
         "headline": topic.seoTitle,
         "name": topic.title,
         "description": topic.seoSummary,
         "abstract": topic.summary,
-        "keywords": topic.title,
         "about": {
-            "@type": "Thing",
-            "name": topic.title
+            "@id": "https://jphiweb.be/#organization"
         },
         "author": {
             "@type": "Person",
@@ -32,12 +36,7 @@
         },
         "publisher": {
             "@id": "https://jphiweb.be/#organization"
-        },
-        "mainEntityOfPage": {
-            "@type": "WebPage",
-            "@id": url('app_topic_show', {slug: topic.slug})
-        },
-        "articleBody": topic.content|striptags|slice(0, 500)
+        }
     } %}
 
     {% set schema = schema|merge({
@@ -57,7 +56,7 @@
     {% endif %}
 
     {% set childrenSchema = [] %}
-    {% for childTopic in topic.childrenTopics %}
+    {% for childTopic in topic.childrenTopics|filter(t => t.published and t.slug) %}
         {% set childrenSchema = childrenSchema|merge([{
             "@type": "CollectionPage",
             "@id": url('app_topic_show', {slug: childTopic.slug}),
@@ -67,7 +66,7 @@
 
     {% set articleSchema = [] %}
     {% for article in topic.articles %}
-        {% if article.slug %}
+        {% if article.slug and article.published %}
             {% set articleSchema = articleSchema|merge([{
                 "@type": "BlogPosting",
                 "@id": url('app_blog_show', {topicSlug: article.topic.slug, slug: article.slug}),
@@ -87,11 +86,13 @@
     <script type="application/ld+json">
         {{ schema|json_encode(256)|raw }}
     </script>
+
+    {{ seo.breadcrumb_list(breadcrumbItems, topic.title) }}
 {% endblock %}
 
 {% block breadcrumb %}
     {{ component('Breadcrumb', {
-        items: [{label: 'Accueil', url: path('app_home')}]|merge(topic.parentTopic ? [{label: topic.parentTopic.title, url: path('app_topic_show', {slug: topic.parentTopic.slug})}] : []),
+        items: breadcrumbItems,
         current: topic.title
     }) }}
 {% endblock %}

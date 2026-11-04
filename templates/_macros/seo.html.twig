@@ -1,0 +1,29 @@
+{#
+    BreadcrumbList JSON-LD built from the same data as the Breadcrumb component:
+    items = [{label, url}] (relative or absolute URLs), current = label of the current page.
+    Usage: {% import '_macros/seo.html.twig' as seo %}{{ seo.breadcrumb_list(items, current) }}
+#}
+{% macro breadcrumb_list(items, current) %}
+    {% set elements = [] %}
+    {% for item in items %}
+        {% set elements = elements|merge([{
+            "@type": "ListItem",
+            "position": loop.index,
+            "name": item.label,
+            "item": absolute_url(item.url)
+        }]) %}
+    {% endfor %}
+    {% set elements = elements|merge([{
+        "@type": "ListItem",
+        "position": items|length + 1,
+        "name": current,
+        "item": app.request.schemeAndHttpHost ~ app.request.pathInfo
+    }]) %}
+    <script type="application/ld+json">
+        {{ {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": elements
+        }|json_encode(constant('JSON_UNESCAPED_UNICODE') b-or constant('JSON_UNESCAPED_SLASHES'))|raw }}
+    </script>
+{% endmacro %}
