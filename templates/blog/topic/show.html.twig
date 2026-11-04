@@ -134,7 +134,7 @@
                     </figure>
                 {% endif %}
 
-                {{ topic.content | raw }}
+                {{ topic.content|strip_empty_tags|raw }}
             </div>
 
         </div>

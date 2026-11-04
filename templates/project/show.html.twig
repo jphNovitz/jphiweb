@@ -103,7 +103,7 @@
                     </figure>
                 {% endif %}
 
-                {{ project.description | raw }}
+                {{ project.description|strip_empty_tags|raw }}
             </div>
 
             {% if project.tags is not empty or project.role or project.link %}
