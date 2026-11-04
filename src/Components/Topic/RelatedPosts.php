@@ -17,6 +17,17 @@ class RelatedPosts
 
     public function mount(Topic $topic): void
     {
+        // Posts picked in EasyAdmin win: show only them, without automatic parent/child cards
+        $pickedPosts = array_values(array_filter(
+            $topic->getRelatedBlogs()->toArray(),
+            fn (Blog $relatedPost) => $this->isOnline($relatedPost)
+        ));
+        if ($pickedPosts !== []) {
+            $this->relatedPosts = array_slice($pickedPosts, 0, $this->maxPosts);
+
+            return;
+        }
+
         $parent = $topic->getParentTopic();
         $this->parentTopic = $parent !== null
         && $parent->isPublished()
@@ -41,26 +52,17 @@ class RelatedPosts
             - count($this->childrenTopics);
 
         $candidates = array_values(array_filter(
-            $topic->getRelatedBlogs()->toArray(),
-            fn (Blog $relatedPost) =>
-                !empty($relatedPost->getSlug())
-                && $relatedPost->isPublished()
-        ));
-        $this->relatedPosts = array_slice($candidates, 0, $maxPosts);
-
-        if ($this->relatedPosts !== []) {
-            return;
-        }
-
-        $candidates = array_values(array_filter(
             $topic->getArticles()->toArray(),
-            fn (Blog $relatedPost) =>
-                !empty($relatedPost->getSlug())
-                && $relatedPost->isPublished()
+            fn (Blog $relatedPost) => $this->isOnline($relatedPost)
         ));
 
         shuffle($candidates);
 
         $this->relatedPosts = array_slice($candidates, 0, $maxPosts);
+    }
+
+    private function isOnline(Blog $post): bool
+    {
+        return !empty($post->getSlug()) && $post->isPublished();
     }
 }

@@ -23,7 +23,14 @@ class RelatedPosts
             return;
         }
 
-        $candidates = $post->getRelatedBlogs()->toArray();
+        // Posts picked in EasyAdmin: never the current post, never an offline one
+        $candidates = array_values(array_filter(
+            $post->getRelatedBlogs()->toArray(),
+            fn (Blog $relatedPost) =>
+                $relatedPost->getId() !== $currentPostId
+                && !empty($relatedPost->getSlug())
+                && $relatedPost->isPublished()
+        ));
         $this->relatedPosts = array_slice($candidates, 0, $this->maxPosts);
 
         if ($this->relatedPosts !== []) {
