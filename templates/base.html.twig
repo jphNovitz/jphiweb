@@ -9,20 +9,8 @@
     <title>{% apply trim %}{% block title %}Création de site web Brabant Wallon | Jphiweb{% endblock %}{% endapply %}</title>
     <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}"/>
     <link rel="icon" type="image/png" href="{{ asset('favicon-96x96.png') }}" sizes="96x96"/>
-    <link
-            rel="preload"
-            as="image"
-            href="{{ asset('images/home/jphiweb-hero.webp') }}"
-            media="(orientation: landscape)"
-            fetchpriority="high"
-    >
-    <link
-            rel="preload"
-            as="image"
-            href="{{ asset('images/home/jphiweb-hero.webp') }}"
-            media="(orientation: portrait)"
-            fetchpriority="high"
-    >
+    {# LCP image preload: overridden only by pages that show such an image above the fold #}
+    {% block preload %}{% endblock %}
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}"/>
     <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}"/>
     <link rel="manifest" href="{{ asset('site.webmanifest') }}"/>

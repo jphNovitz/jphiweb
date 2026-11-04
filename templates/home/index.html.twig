@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{% block preload %}
+    <link rel="preload" as="image" href="{{ asset('images/home/jphiweb-hero.webp') }}" fetchpriority="high">
+{% endblock %}
+
 {% block body %}
     {% include '_partials/_hero.html.twig' %}
 
