@@ -12,7 +12,8 @@
 {% block og_title %}{{ topic.seoTitle }}{% endblock %}
 {% block og_image %}{% if topic.image %}{{ absolute_url(asset('images/topic/' ~ topic.image)) }}{% else %}{{ parent() }}{% endif %}{% endblock %}
 {% block og_image_size %}{% if not topic.image %}{{ parent() }}{% endif %}{% endblock %}
-{% block og_image_alt %}{{ topic.imageAlt ?: topic.seoTitle }}{% endblock %}
+{# The alt must describe the shared image: without a page image, keep the default image alt #}
+{% block og_image_alt %}{% if topic.image %}{{ topic.imageAlt ?: topic.seoTitle }}{% else %}{{ parent() }}{% endif %}{% endblock %}
 {% block og_description %}{{ topic.seoSummary }}{% endblock %}
 
 {% block json_ld %}

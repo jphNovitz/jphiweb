@@ -8,7 +8,8 @@
 {% block og_title %}{{ project.seoTitle }}{% endblock %}
 {% block og_image %}{% if project.image %}{{ absolute_url(asset('images/projets/' ~ project.image)) }}{% else %}{{ parent() }}{% endif %}{% endblock %}
 {% block og_image_size %}{% if not project.image %}{{ parent() }}{% endif %}{% endblock %}
-{% block og_image_alt %}{{ project.imageAlt ?: project.seoTitle }}{% endblock %}
+{# The alt must describe the shared image: without a page image, keep the default image alt #}
+{% block og_image_alt %}{% if project.image %}{{ project.imageAlt ?: project.seoTitle }}{% else %}{{ parent() }}{% endif %}{% endblock %}
 {% block og_description %}{{ project.seoSummary }}{% endblock %}
 
 
