@@ -15,6 +15,7 @@
 
 
 {% block json_ld %}
+    {{ parent() }}
     {% set schema = {
         "@context": "https://schema.org",
         "@type": "BlogPosting",
@@ -24,7 +25,7 @@
         "dateModified": post.updatedAt|date('c'),
         "author": {
             "@type": "Person",
-            "@id": "https://jphiweb.be/#person_jphnovitz",
+            "@id": "https://jphiweb.be/#person",
             "name": "Novitz Jean-Philippe"
         },
         "publisher": {

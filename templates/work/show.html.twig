@@ -12,6 +12,7 @@
 {% block og_description %}{{ work.seoDescription }}{% endblock %}
 
 {% block json_ld %}
+    {{ parent() }}
     <script type="application/ld+json">
         {
             "@context": "https://schema.org",
@@ -25,21 +26,7 @@
             {% endif %}
             "serviceType": {{ (work.type ? work.type.serviceType() : 'Création de site web')|json_encode(constant('JSON_UNESCAPED_UNICODE'))|raw }},
             "provider": {
-                "@type": "ProfessionalService",
-                "@id": "https://jphiweb.be/#organization",
-                "name": "Novitz Jean-Philippe",
-                "url": "https://jphiweb.be",
-                {% if contact_phone %}
-                "telephone": {{ contact_phone|json_encode|raw }},
-                {% endif %}
-                "email": "bonjour@jphiweb.be",
-                "address": {
-                    "@type": "PostalAddress",
-                    "addressLocality": "Court-Saint-Étienne",
-                    "postalCode": "1490",
-                    "addressRegion": "Brabant Wallon",
-                    "addressCountry": "BE"
-                }
+                "@id": "https://jphiweb.be/#organization"
             },
             "areaServed": [
                 {

@@ -12,6 +12,7 @@
 {% block og_description %}{{ topic.seoSummary }}{% endblock %}
 
 {% block json_ld %}
+    {{ parent() }}
     {% set schema = {
         "@context": "https://schema.org",
         "@type": "CollectionPage",
@@ -26,7 +27,7 @@
         },
         "author": {
             "@type": "Person",
-            "@id": "https://jphiweb.be/#person_jphnovitz",
+            "@id": "https://jphiweb.be/#person",
             "name": "Novitz Jean-Philippe"
         },
         "publisher": {

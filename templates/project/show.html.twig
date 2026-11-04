@@ -13,6 +13,7 @@
 
 
 {% block json_ld %}
+    {{ parent() }}
     {% set schema = {
         "@context": "https://schema.org",
         "@type": project.schemaType.value,
@@ -22,7 +23,7 @@
         "abstract": project.header,
         "author": {
             "@type": "Person",
-            "@id": "https://jphiweb.be/#person_jphnovitz",
+            "@id": "https://jphiweb.be/#person",
             "name": "Novitz Jean-Philippe"
         },
         "publisher": {
