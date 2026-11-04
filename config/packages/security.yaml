@@ -23,6 +23,8 @@ security:
         main:
             lazy: true
             provider: all_users
+            # Redirects to app_login; also remembers the admin page on POST/XHR session expiry
+            entry_point: App\Security\LoginEntryPoint
             form_login:
                 # "app_login" is the name of the route created previously
                 login_path: app_login
