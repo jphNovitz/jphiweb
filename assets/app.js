@@ -6,9 +6,3 @@ import './bootstrap.js';
  * which should already be in your base.html.twig.
  */
 // import './styles/app.css';
-import Alpine from 'alpinejs';
-
-
-// rendre Alpine accessible globalement et démarrer le moteur
-window.Alpine = Alpine;
-Alpine.start();

@@ -2,9 +2,12 @@
 
 module.exports = {
     // darkMode: 'false',
+    // Never scan assets/vendor/ (importmap downloads): third-party JS would
+    // generate hundreds of unused classes.
     content: [
-        "./assets/**/*.js",
-        "./assets/**/*.vue",
+        "./assets/*.js",
+        "./assets/controllers/**/*.js",
+        "./assets/js/**/*.{js,vue}",
         "./templates/**/*.html.twig",
     ],
     theme: {

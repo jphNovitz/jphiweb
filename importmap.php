@@ -16,43 +16,6 @@ return [
         'path' => './assets/app.js',
         'entrypoint' => true,
     ],
-    'alpinejs' => [
-        'version' => '3.14.9',
-    ],
-    'daisyui' => [
-        'version' => '5.0.35',
-    ],
-    'postcss-js' => [
-        'version' => '4.0.1',
-    ],
-    'picocolors' => [
-        'version' => '1.1.1',
-    ],
-    'css-selector-tokenizer' => [
-        'version' => '0.8.0',
-    ],
-    'culori/require' => [
-        'version' => '4.0.1',
-    ],
-    'camelcase-css' => [
-        'version' => '2.0.1',
-    ],
-    'postcss' => [
-        'version' => '8.5.3',
-    ],
-    'fastparse' => [
-        'version' => '1.1.2',
-    ],
-    'cssesc' => [
-        'version' => '3.0.0',
-    ],
-    'nanoid/non-secure' => [
-        'version' => '5.1.5',
-    ],
-    'daisyui/daisyui.min.css' => [
-        'version' => '5.0.35',
-        'type' => 'css',
-    ],
     '@hotwired/stimulus' => [
         'version' => '3.2.2',
     ],
