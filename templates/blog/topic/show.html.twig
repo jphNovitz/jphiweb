@@ -66,12 +66,27 @@
     {% set articleSchema = [] %}
     {% for article in topic.articles %}
         {% if article.slug and article.published %}
-            {% set articleSchema = articleSchema|merge([{
+            {% set articleUrl = url('app_blog_show', {topicSlug: article.topic.slug, slug: article.slug}) %}
+            {% set articleItem = {
                 "@type": "BlogPosting",
-                "@id": url('app_blog_show', {topicSlug: article.topic.slug, slug: article.slug}),
+                "@id": articleUrl,
+                "url": articleUrl,
                 "headline": article.seoTitle,
-                "name": article.title
-            }]) %}
+                "name": article.title,
+                "author": {
+                    "@id": "https://jphiweb.be/#person"
+                }
+            } %}
+            {% if article.image %}
+                {% set articleItem = articleItem|merge({"image": absolute_url(asset('images/blog/' ~ article.image))}) %}
+            {% endif %}
+            {% if article.createdAt %}
+                {% set articleItem = articleItem|merge({"datePublished": article.createdAt|date('c')}) %}
+            {% endif %}
+            {% if article.updatedAt %}
+                {% set articleItem = articleItem|merge({"dateModified": article.updatedAt|date('c')}) %}
+            {% endif %}
+            {% set articleSchema = articleSchema|merge([articleItem]) %}
         {% endif %}
     {% endfor %}
 
